@@ -11,43 +11,34 @@
 
 <body>
     <div id="buttons">
-        <button data-fruit="apple">Apples</button>
+        <button data-fruit="mango">Mango</button>
         <button data-fruit="orange">Oranges</button>
         <button data-fruit="banana">Bananas</button>
         <button data-fruit="pineapple">Pineapple</button>
         <button data-fruit="watermelon">Watermelon</button>
     </div>
 
-    <div id="fruitSearch">
+    <div id="fruitView">
 
     </div>
 
-    <form id="fruit-form"><br>
+    <form id="fruit-form">
+    <br>
     <label for="fruit-input">Add a Fruit</label>
-    <input type="text" id="fruit-input"><br><br>
+    <input type="text" id="fruit-input">
+    <br><br>
     
     <input id="addFruit" type="submit" value="Add a fruit">
     </form>
 
     <div id="gifsAppearHere">
-    <script>$("#gifsAppearHere").text($('#handler').val();</script>
     </div>
 
 
 <script src='http://code.jquery.com/jquery-2.1.3.min.js'></script>
 <script type="text/javascript">
-    $('button').on('click', function() {
 
-        $('#fruitSearch').empty();
-
-                $('#addFruit').on('click', function(){
-                    var fruit = $('#fruit-input').val().trim();
-                    fruit.push(fruit);
-                    renderButtons();
-                });
-    });
-
-    $('button').on('click', function() {
+        $('button').on('click', function() {
         var p = $(this).data('fruit');
         var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + p + "&api_key=dc6zaTOxFJmzC&limit=10";
 
@@ -59,8 +50,7 @@
                 var results = response.data;
 
                 for (var i = 0; i < results.length; i++) {
-                    var gifDiv = $('<div class="item">')
-                    // to get giphy on same line change the <div> because that's a block. We need inline. 
+                    var gifDiv = $('<div class="item">');
 
                     var rating = results[i].rating;
 
@@ -73,11 +63,11 @@
                     gifDiv.append(fruitImage)
 
                     $("#gifsAppearHere").prepend(gifDiv);
-                }
+                
+                };
+             });
+          });
 
-        });
-
-    });
 </script>
 </body>
 
