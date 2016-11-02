@@ -10,17 +10,19 @@
 </head>
 
 <body>
+	<div class="container">
+	<h1> Fruit Search </h1>
+    <div id="fruitView">
+	</div>
+    </div>
+
     <div id="buttons">
         <button data-fruit="mango">Mango</button>
         <button data-fruit="orange">Oranges</button>
         <button data-fruit="banana">Bananas</button>
         <button data-fruit="pineapple">Pineapple</button>
         <button data-fruit="watermelon">Watermelon</button>
-    </div>
-
-    <div id="fruitView">
-
-    </div>
+    </div> 
 
     <form id="fruit-form">
     <br>
@@ -38,35 +40,61 @@
 <script src='http://code.jquery.com/jquery-2.1.3.min.js'></script>
 <script type="text/javascript">
 
-        $('button').on('click', function() {
-        var p = $(this).data('fruit');
-        var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + p + "&api_key=dc6zaTOxFJmzC&limit=10";
+ var fruit = ["mango", "orange", "banana", "pineapple", "watermelon"];
 
-        $.ajax({
-                url: queryURL,
-                method: 'GET'
-            })
-            .done(function(response) {
-                var results = response.data;
+	function createButtons(){
+    // empty out all the buttons
+	$("#buttons").empty();
+  // create var and add user input to fruit array
+  var addFruit = $("#fruit-input").val();
+  fruit.push(addFruit);
+  // create all the buttons in the fruit array
+	for (var i = 0; i < fruit.length; i++){ 		
+		var newButton = $("<button>")
+    newButton.addClass("newFruit");
+    newButton.attr("data-fruit", fruit[i]);
+    newButton.text(fruit[i]);
 
-                for (var i = 0; i < results.length; i++) {
-                    var gifDiv = $('<div class="item">');
+ 		$("#buttons").append(newButton);
 
-                    var rating = results[i].rating;
+    console.log(buttons);
 
-                    var p = $('<p>').text("Rating: " + rating);
+ 	};
+ };
+  $("#addFruit").on("click", function(){
+    createButtons();
 
-                    var fruitImage = $('<img>');
-                    fruitImage.attr('src', results[i].images.fixed_height.url);
+    return false;
+  });
 
-                    gifDiv.append(p)
-                    gifDiv.append(fruitImage)
+ $(document).on('click', "button", function() {
+     var p = $(this).data('fruit');
+     var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + p + "&api_key=dc6zaTOxFJmzC&limit=10";
 
-                    $("#gifsAppearHere").prepend(gifDiv);
+  $.ajax({
+      url: queryURL,
+      method: 'GET'
+   })
+     .done(function(response) {
+       	var results = response.data;
+
+       for (var i = 0; i < results.length; i++) {
+       	var gifDiv = $('<div class="item">');
+ 		var rating = results[i].rating;
+
+         var p = $('<p>').text("Rating: " + rating);
+
+         var fruitImage = $('<img>');
+         fruitImage.attr('src', results[i].images.fixed_height.url);
+
+         gifDiv.append(p);
+         gifDiv.append(fruitImage);
+
+         $("#gifsAppearHere").prepend(gifDiv);
                 
-                };
-             });
-          });
+       };
+   	});
+ });
 
 </script>
 </body>
